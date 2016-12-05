@@ -1,0 +1,2 @@
+# ktBOX1mini
+BOXmini
