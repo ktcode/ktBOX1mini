@@ -8,15 +8,21 @@
 gap1 = 0.001;
 gap2 = 0.002;
 
+
 panel_thick = 2;
-front_x = 70+2;
-front_y = 45+2;
+board_x = 70;
+board_y = 45;
+margin_x = 0.5;
+margin_y = 1;
+front_x = board_x+margin_x*2;
+front_y = board_y+margin_y*2;
 front_z = 6;
 rear_x = front_x;
 rear_y = front_y;
 rear_z = 3;
-base_x = 65;
-base_y = 40;
+base_x = 2.5;
+base_y = 2.5;
+
 
 translate( [0, 0, 0] ){
     difference(){
@@ -28,9 +34,10 @@ translate( [0, 0, 0] ){
             wall_x_b( 0, 0, 0, front_z );
             wall_y_r( 0, 0, 0, front_z );
             wall_y_l( front_x, 0, 0, front_z );
-            board_base( (front_x-base_x)/2, (front_y-base_y)/2, 0 );
+            board_base( margin_x, margin_y, 0 );
             }
         }
+        board_hole( margin_x, margin_y, 0 );
     }
 }
 
@@ -67,9 +74,26 @@ module pillar( x, y, z=0 ){
 }
 module board_base( x, y, z=0 ){
     translate( [x, y, z+panel_thick] ){
-        pillar( 0, 0, z );
-        pillar( base_x, 0, z );
-        pillar( 0, base_y, z );
         pillar( base_x, base_y, z );
+        pillar( board_x-base_x, base_y, z );
+        pillar( base_x, board_y-base_y, z );
+        pillar( board_x-base_x, board_y-base_y, z );
+    }
+}
+
+
+
+module board_hole( x, y, z=0 ){
+    translate( [x, y, z+panel_thick] ){
+        translate( [board_x-1, board_y-18, z] )
+        cube( [10, 8, 3.2] );
+        translate( [board_x-1, board_y-18+1, z+3.2-gap1] )
+        cube( [10, 6, 2.8+gap2] );
+        translate( [board_x-1, board_y-18, z+3.2] )
+        rotate( [-45, 0, 0] )
+        cube( [10, sqrt(2), sqrt(2)] );
+        translate( [board_x-1, board_y-18+8, z+3.2] )
+        rotate( [-225, 0, 0] )
+        cube( [10, sqrt(2), sqrt(2)] );
     }
 }
