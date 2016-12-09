@@ -24,12 +24,22 @@ rear_y = front_y;
 rear_z = 3;
 base_x = 2.5;
 base_y = 2.5;
+socket_x = 51.9;
+socket_y = 8.5;
+socket_z = 5;
+cap_front_x = front_x;
+cap_front_y = 11;
+cap_front_z = front_z;
+cap_rear_x = rear_x;
+cap_rear_y = cap_front_y;
+cap_rear_z = rear_z;
 
 
 A = 1;
 B = 1;
 C = 1;
-
+D = 1;
+E = 1;
 
 
 if( A ){
@@ -58,12 +68,14 @@ if( B ){
 //translate( [board_x-1, 9.25, 2+gap1] )
 //rotate( [0, 180, 0] )
 translate( [0, -20, 0] )
+rotate( [0, 0, 0] )
 sw( 0, 0, 0 );
 }
 
 
 
 if( C ){
+//translate( [0, 0, front_z+panel_thick] ){
 translate( [0, 70, 0] ){
     difference(){
         union(){
@@ -80,6 +92,71 @@ translate( [0, 70, 0] ){
     }
 }
 }
+
+
+
+if( D ){
+translate( [0, 140, 0] ){
+//translate( [0, 51.2, 0] ){
+    difference(){
+        union(){
+            color( "Blue" )
+            {
+            //panel
+            cube( [cap_front_x, cap_front_y, panel_thick] );
+            //wall
+            translate( [0, cap_front_y, 0] )
+            cube( [cap_front_x, panel_thick, cap_front_z+panel_thick] );
+            translate( [0, -panel_thick, 0] )
+            cube( [cap_front_x, panel_thick, cap_front_z+panel_thick] );
+            translate( [-panel_thick, -panel_thick, 0] )
+            cube( [panel_thick, cap_front_y+panel_thick*2, cap_front_z+panel_thick] );
+            translate( [cap_front_x, -panel_thick, 0] )
+            cube( [panel_thick, cap_front_y+panel_thick*2, cap_front_z+panel_thick] );
+            //guide
+            translate( [(cap_front_x-socket_x-5)/2, 0, panel_thick] )
+            cube( [socket_x+5, socket_y+2.5, socket_z] );
+            pillar( base_x+margin_x, 3, panel_thick, 0 );
+            pillar( board_x-base_x+margin_x, 3, panel_thick, 0 );
+            }
+        }
+        translate( [(cap_front_x-socket_x)/2, -panel_thick+1-gap1, panel_thick+board_z-5] ){
+        cube( [socket_x, socket_y, socket_z+3] );
+        translate( [1.8/2, -2, 0] )
+        cube( [socket_x-1.8, socket_y+2+3.5, socket_z+3] );
+        }
+    }
+}
+}
+
+
+if( E ){
+translate( [0, 170, 0] ){
+//translate( [0, 51.2, cap_front_z+panel_thick] ){
+    difference(){
+        union(){
+            color( "Black" )
+            {
+            cube( [cap_rear_x, cap_rear_y, cap_rear_z] );
+            //wall
+            translate( [0, cap_front_y, 0] )
+            cube( [cap_rear_x, panel_thick, cap_rear_z] );
+            translate( [0, -panel_thick, 0] )
+            cube( [cap_rear_x, panel_thick, cap_rear_z] );
+            translate( [-panel_thick, -panel_thick, 0] )
+            cube( [panel_thick, cap_rear_y+panel_thick*2, cap_rear_z] );
+            translate( [cap_rear_x, -panel_thick, 0] )
+            cube( [panel_thick, cap_rear_y+panel_thick*2, cap_rear_z] );
+            }
+        }
+        rear_hole( margin_x, margin_y, 0 );
+    }
+}
+}
+
+
+
+
 
 
 
