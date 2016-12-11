@@ -67,7 +67,7 @@ translate( [0, 0, 0] ){
 if( B ){
 //translate( [board_x-1, 9.25, 2+gap1] )
 //rotate( [0, 180, 0] )
-translate( [0, -20, 0] )
+translate( [80, 89, 0] )
 rotate( [0, 0, 0] )
 sw( 0, 0, 0 );
 }
@@ -75,8 +75,10 @@ sw( 0, 0, 0 );
 
 
 if( C ){
+//rotate( [0, 0, 0] ){
 //translate( [0, 0, front_z+panel_thick] ){
-translate( [0, 70, 0] ){
+rotate( [180, 0, 0] ){
+translate( [0, -115, -rear_z] ){
     difference(){
         union(){
             color( "Black" )
@@ -89,18 +91,31 @@ translate( [0, 70, 0] ){
             }
         }
         rear_hole( margin_x, margin_y, 0 );
+        //CN1
+        translate( [margin_x+(board_x-55)/2, rear_y-7, -gap1] )
+        cube( [ 55, 7, 1.5] );
+        //CN2
+        translate( [margin_x+(board_x-55)/2, 0, -gap1] )
+        cube( [ 55, 7, 1.5] );
+        //left
+        translate( [0, 7+panel_thick, -gap1] )
+        cube( [ rear_x/2-panel_thick, rear_y-7*2-panel_thick*2, 1.5] );
+        //right
+        translate( [rear_x/2, 7+panel_thick, -gap1] )
+        cube( [ rear_x/2, rear_y-7*2-panel_thick*2, 1.5] );
     }
+}
 }
 }
 
 
 
 if( D ){
-translate( [0, 140, 0] ){
 //translate( [0, 51.2, 0] ){
+translate( [80, 73, 0] ){
     difference(){
         union(){
-            color( "Blue" )
+            color( "Black" )
             {
             //panel
             cube( [cap_front_x, cap_front_y, panel_thick] );
@@ -131,8 +146,10 @@ translate( [0, 140, 0] ){
 
 
 if( E ){
-translate( [0, 170, 0] ){
+//rotate( [0, 0, 0]){
 //translate( [0, 51.2, cap_front_z+panel_thick] ){
+rotate( [180, 0, 0]){
+translate( [80, -110, -cap_rear_z] ){
     difference(){
         union(){
             color( "Black" )
@@ -147,10 +164,14 @@ translate( [0, 170, 0] ){
             cube( [panel_thick, cap_rear_y+panel_thick*2, cap_rear_z] );
             translate( [cap_rear_x, -panel_thick, 0] )
             cube( [panel_thick, cap_rear_y+panel_thick*2, cap_rear_z] );
+            //stopper    
+            translate( [(cap_front_x-socket_x)/2+2.5/2, -panel_thick, -1.3] )
+            cube( [socket_x-2.5, socket_y, 1.3] );
             }
         }
         rear_hole( margin_x, margin_y, 0 );
     }
+}
 }
 }
 
@@ -238,8 +259,8 @@ module board_hole( x, y, z=0 ){
         cube( [ 8.5, 3.5, 4] );
         translate( [board_x-8.5-2.25, 9.25+1.5/2, z-4-2.5] )
         cube( [ 4.5, 1.5, 2.5] );
-        translate( [board_x-8.5-2.75, 9.25+1.5/2-1.25, z-4-2.5] )
-        cube( [ 6.5, 4, 2.5] );
+        translate( [board_x-8.5-2.75, 9.25+1.5/2-1.4, z-4-2.5] )
+        cube( [ 6.5, 4.3, 2.5] );
         translate( [board_x-8.5-2.25-4.5, 9.25+1.5/2-2.25, z-4-1.2] )
         cube( [ 14.5, 6, 2.5] );
         //CN1
