@@ -209,7 +209,7 @@ module pillar( x, y, z=0, r=0 ){
             difference(){
             translate( [0, -1, board_z/2] )
             cube( [9, 8, board_z], center=true );
-            cylinder( board_z+gap1, 1.2, 1.4, $fn=8 );
+            cylinder( board_z+gap1, 1.0, 1.4, $fn=8 );
             }
         }
     }
