@@ -131,8 +131,8 @@ translate( [80, 73, 0] ){
             //guide
             translate( [(cap_front_x-socket_x-5)/2, 0, panel_thick] )
             cube( [socket_x+5, socket_y+2.5, socket_z] );
-            pillar( base_x+margin_x, 3, panel_thick, 0 );
-            pillar( board_x-base_x+margin_x, 3, panel_thick, 0 );
+            pillar( base_x+margin_x, 4, panel_thick, 0 );
+            pillar( board_x-base_x+margin_x, 4, panel_thick, 0 );
             }
         }
         translate( [(cap_front_x-socket_x)/2, -panel_thick+1-gap1, panel_thick+board_z-5] ){
@@ -169,7 +169,7 @@ translate( [80, -110, -cap_rear_z] ){
             cube( [socket_x-2.5, socket_y, 1.3] );
             }
         }
-        rear_hole( margin_x, margin_y, 0 );
+        rear_hole( margin_x, margin_y+1, 0 );
     }
 }
 }
@@ -203,13 +203,17 @@ module wall_y_l( x, y, z, h ){
 }
 
 
+
 module pillar( x, y, z=0, r=0 ){
     translate( [x, y, z] ){
         rotate( [0, 0, r] ){
             difference(){
-            translate( [0, -1, board_z/2] )
-            cube( [9, 8, board_z], center=true );
-            cylinder( board_z+gap1, 1.0, 1.4, $fn=8 );
+            translate( [0, 0, board_z/2] )
+            cube( [10, 10, board_z], center=true );
+            cylinder( board_z+gap1, 1.6, 1.6, $fn=30 );
+            translate( [0, 0, board_z-(2.4+0.15)+gap1] )
+            rotate( [0, 0, 90] )
+            cylinder( 2.4+0.15, 6.5/2+0.1, 6.5/2+0.1, $fn=6 );
             }
         }
     }
@@ -225,9 +229,9 @@ module board_base( x, y, z=0 ){
 module rear_pillar( x, y, z=0 ){
     translate( [x, y, z] ){
         translate( [0, 0, -gap1] )
-        cylinder( rear_z-2.2+gap2, 1.5, 1.5, $fn=8 );
+        cylinder( rear_z-2.2+gap2, 1.5, 1.5, $fn=30 );
         translate( [0, 0, rear_z-2.2] )
-        cylinder( 2.2+gap1, 3, 3, $fn=8 );
+        cylinder( 2.2+gap1, 3.25, 3.25, $fn=30 );
     }
 }
 module rear_hole( x, y, z=0 ){
