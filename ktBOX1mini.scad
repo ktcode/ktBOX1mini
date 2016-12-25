@@ -40,6 +40,7 @@ B = 1;
 C = 1;
 D = 1;
 E = 1;
+F = 1;
 
 
 if( A ){
@@ -130,15 +131,21 @@ translate( [80, 73, 0] ){
             cube( [panel_thick, cap_front_y+panel_thick*2, cap_front_z+panel_thick] );
             //guide
             translate( [(cap_front_x-socket_x-5)/2, 0, panel_thick] )
-            cube( [socket_x+5, socket_y+2.5, socket_z] );
-            pillar( base_x+margin_x, 4, panel_thick, 0 );
-            pillar( board_x-base_x+margin_x, 4, panel_thick, 0 );
+            cube( [socket_x+5, socket_y+2.5, socket_z+0.5] );
+            cap_pillar( base_x+margin_x, 4, panel_thick, 0 );
+            cap_pillar( board_x-base_x+margin_x, 4, panel_thick, 0 );
             }
         }
         translate( [(cap_front_x-socket_x)/2, -panel_thick+1-gap1, panel_thick+board_z-5] ){
-        cube( [socket_x, socket_y, socket_z+3] );
+        translate( [-0.5/2, 0, 0] )
+        cube( [socket_x+0.5, socket_y, socket_z+3] );
         translate( [1.8/2, -2, 0] )
         cube( [socket_x-1.8, socket_y+2+3.5, socket_z+3] );
+        
+        translate( [0, cap_front_y+1-0.5, gap1] )
+        rotate( [-90, 0, 0] )
+        scale( [1, 1, 1.3] )
+        rear_cover( 0, 0, 0 );
         }
     }
 }
@@ -169,14 +176,45 @@ translate( [80, -110, -cap_rear_z] ){
             cube( [socket_x-2.5, socket_y, 1.3] );
             }
         }
-        rear_hole( margin_x, margin_y+1, 0 );
+        rear_hole( margin_x, margin_y+0.7, 0 );
     }
 }
 }
 }
 
 
+if( F ){
+//rotate( [-90, 0, 0]){
+//translate( [10.5, 0, 62] ){
+rotate( [0, 0, 0]){
+translate( [93, 95, 0] ){
+    difference(){
+        union(){
+            color( "Black" )
+            {
+            scale( [0.97, 0.92, 1] )
+            rear_cover( 0, 0, 0 );
+            }
+        }
+    }
+}
+}
+}
 
+module rear_cover( x, y, z ){
+    ly = front_z+panel_thick-1;
+    translate( [x, y-ly, z] ){
+        difference(){
+        cube( [52, ly, panel_thick] );
+        translate( [0, -gap1, 0] )
+        rotate( [0, -45, 0] )
+        cube( [3, ly+gap2, panel_thick] );
+        translate( [52, -gap1, 0] )
+        rotate( [0, -45, 0] )
+        cube( [panel_thick, ly+gap2, 3] );
+        }
+    }
+}
 
 
 
@@ -229,9 +267,9 @@ module board_base( x, y, z=0 ){
 module rear_pillar( x, y, z=0 ){
     translate( [x, y, z] ){
         translate( [0, 0, -gap1] )
-        cylinder( rear_z-2.2+gap2, 1.5, 1.5, $fn=30 );
+        cylinder( rear_z-2.2+gap2, 1.5, 1.5+0.7, $fn=30 );
         translate( [0, 0, rear_z-2.2] )
-        cylinder( 2.2+gap1, 3.25, 3.25, $fn=30 );
+        cylinder( 2.2+gap1, 3.25-0.8, 3.25+0.6, $fn=30 );
     }
 }
 module rear_hole( x, y, z=0 ){
@@ -242,7 +280,20 @@ module rear_hole( x, y, z=0 ){
         rear_pillar( board_x-base_x, board_y-base_y, z );
     }
 }
-
+module cap_pillar( x, y, z=0, r=0 ){
+    translate( [x, y, z] ){
+        rotate( [0, 0, r] ){
+            difference(){
+            translate( [0, 1, (board_z+1.5)/2] )
+            cube( [10, 12, board_z+1.5], center=true );
+            cylinder( board_z+1.5+gap1, 1.6, 1.6, $fn=30 );
+            translate( [0, 0, board_z+1.5-(2.4+0.15)+gap1] )
+            rotate( [0, 0, 90] )
+            cylinder( 2.4+0.15, 6.5/2+0.1, 6.5/2+0.1, $fn=6 );
+            }
+        }
+    }
+}
 
 
 module board_hole( x, y, z=0 ){
